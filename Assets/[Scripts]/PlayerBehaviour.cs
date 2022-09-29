@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public ScoreManager scoreManager;
     public float speed = 2.0f;
     public Boundary boundary;
     public float verticalPosition;
@@ -14,6 +15,8 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        scoreManager = FindObjectOfType<ScoreManager>();
+
         transform.position = new Vector2(0.0f, verticalPosition);
         camera = Camera.main;
 
@@ -44,6 +47,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         Move();
+
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            scoreManager.AddPoints(10);
+        }
     }
 
     void GetConventionalInput()
