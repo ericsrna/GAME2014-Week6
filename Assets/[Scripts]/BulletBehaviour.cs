@@ -22,24 +22,25 @@ public class BulletBehaviour : MonoBehaviour
 {
     public BulletDirection direction;
     public float speed;
-    public Vector3 velocity;
     public ScreenBounds bounds;
+    
+    private Vector3 velocity;
 
     void Start()
     {
         switch(direction)
         {
             case BulletDirection.UP:
-                velocity = Vector3.up * speed * Time.deltaTime;
+                velocity = Vector3.up * speed;
                 break;
             case BulletDirection.DOWN:
-                velocity = Vector3.down * speed * Time.deltaTime;
+                velocity = Vector3.down * speed;
                 break;
             case BulletDirection.LEFT:
-                velocity = Vector3.left * speed * Time.deltaTime;
+                velocity = Vector3.left * speed;
                 break;
             case BulletDirection.RIGHT:
-                velocity = Vector3.right * speed * Time.deltaTime;
+                velocity = Vector3.right * speed;
                 break;
         }
     }
@@ -52,7 +53,7 @@ public class BulletBehaviour : MonoBehaviour
 
     void Move()
     {
-        transform.position += velocity;
+        transform.position += velocity * Time.deltaTime;
     }
 
     void CheckBounds()
