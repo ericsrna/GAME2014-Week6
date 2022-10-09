@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public enum BulletDirection
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-}
-
-[System.Serializable]
 public struct ScreenBounds
 {
     public Boundary horizontal;
@@ -20,14 +11,16 @@ public struct ScreenBounds
 
 public class BulletBehaviour : MonoBehaviour
 {
+    [Header("Bullet Properties")]
     public BulletDirection bulletDirection;
     public float speed;
-    public ScreenBounds bounds;
-    
+    public ScreenBounds bounds;    
     private Vector3 velocity;
+    public BulletManager bulletManager;
 
     void Start()
     {
+        bulletManager = FindObjectOfType<BulletManager>();
         SetDirection(bulletDirection);
     }
 
@@ -51,7 +44,7 @@ public class BulletBehaviour : MonoBehaviour
             )
         {
             // return the bullet to the pool
-            Destroy(this.gameObject);
+            bulletManager.ReturnBullet(this.gameObject);
         }
     }
 
@@ -76,6 +69,6 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(this.gameObject);
+        bulletManager.ReturnBullet(this.gameObject);
     }
 }

@@ -12,11 +12,10 @@ public class PlayerBehaviour : MonoBehaviour
     public bool usingMobileInput = false;
 
     [Header("Bullet Properties")]
-    public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     [Range(0.1f, 1.0f)]
     public float fireRate = 0.2f;
-    public Transform bulletParent;
+    public BulletManager bulletManager;
 
     private Camera camera;
 
@@ -24,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        bulletManager = FindObjectOfType<BulletManager>();
 
         transform.position = new Vector2(0.0f, verticalPosition);
         camera = Camera.main;
@@ -79,6 +79,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FireBullets()
     {
-        var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity, bulletParent);
+        bulletManager.GetBullet(bulletSpawnPoint.position, BulletDirection.UP);
     }
 }
