@@ -20,7 +20,7 @@ public struct ScreenBounds
 
 public class BulletBehaviour : MonoBehaviour
 {
-    public BulletDirection direction;
+    public BulletDirection bulletDirection;
     public float speed;
     public ScreenBounds bounds;
     
@@ -28,21 +28,7 @@ public class BulletBehaviour : MonoBehaviour
 
     void Start()
     {
-        switch(direction)
-        {
-            case BulletDirection.UP:
-                velocity = Vector3.up * speed;
-                break;
-            case BulletDirection.DOWN:
-                velocity = Vector3.down * speed;
-                break;
-            case BulletDirection.LEFT:
-                velocity = Vector3.left * speed;
-                break;
-            case BulletDirection.RIGHT:
-                velocity = Vector3.right * speed;
-                break;
-        }
+        SetDirection(bulletDirection);
     }
 
     void Update()
@@ -66,6 +52,25 @@ public class BulletBehaviour : MonoBehaviour
         {
             // return the bullet to the pool
             Destroy(this.gameObject);
+        }
+    }
+
+    public void SetDirection(BulletDirection direction)
+    {
+        switch (direction)
+        {
+            case BulletDirection.UP:
+                velocity = Vector3.up * speed;
+                break;
+            case BulletDirection.DOWN:
+                velocity = Vector3.down * speed;
+                break;
+            case BulletDirection.LEFT:
+                velocity = Vector3.left * speed;
+                break;
+            case BulletDirection.RIGHT:
+                velocity = Vector3.right * speed;
+                break;
         }
     }
 
