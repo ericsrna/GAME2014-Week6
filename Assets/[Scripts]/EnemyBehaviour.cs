@@ -13,13 +13,14 @@ public class EnemyBehaviour : MonoBehaviour
 
     [Header("Other Enemy Properties")]
     public Color randomColor;
-    private SpriteRenderer spriteRenderer;
 
     [Header("Bullet Properties")]
     public Transform bulletSpawnPoint;
     [Range(0.1f, 1.0f)]
     public float fireRate = 0.2f;
-    public BulletManager bulletManager;
+
+    private SpriteRenderer spriteRenderer;
+    private BulletManager bulletManager;
 
     void Start()
     {

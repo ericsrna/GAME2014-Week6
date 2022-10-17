@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Movement Properties")]
-    public ScoreManager scoreManager;
     public float speed = 2.0f;
     public Boundary boundary;
     public float verticalPosition;
@@ -15,8 +14,9 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform bulletSpawnPoint;
     [Range(0.1f, 1.0f)]
     public float fireRate = 0.2f;
-    public BulletManager bulletManager;
 
+    private ScoreManager scoreManager;
+    private BulletManager bulletManager;
     private Camera camera;
 
     // Start is called before the first frame update

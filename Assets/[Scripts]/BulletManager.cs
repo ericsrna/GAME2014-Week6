@@ -5,9 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class BulletManager : MonoBehaviour
 {
-    public Queue<GameObject> PlayerBulletPool;
-    public Queue<GameObject> EnemyBulletPool;
-    
     [Header("Player Bullets")]
     [Range(10, 200)]
     public int playerBulletNumber = 50;
@@ -19,7 +16,10 @@ public class BulletManager : MonoBehaviour
     public int enemyBulletNumber = 50;
     public int enemyBulletCount;
     public int activeEnemyBullets = 0;
-    public BulletFactory bulletFactory;
+
+    private Queue<GameObject> PlayerBulletPool;
+    private Queue<GameObject> EnemyBulletPool;
+    private BulletFactory bulletFactory;
 
     void Start()
     {

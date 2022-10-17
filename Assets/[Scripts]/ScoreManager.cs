@@ -8,7 +8,6 @@ public class ScoreManager : MonoBehaviour
 {
     public TMP_Text scoreLabel;
     public int score = 0;
-
     void Start()
     {
         UpdateScore();
