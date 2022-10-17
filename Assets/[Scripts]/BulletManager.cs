@@ -5,60 +5,98 @@ using UnityEngine;
 [System.Serializable]
 public class BulletManager : MonoBehaviour
 {
-    public Queue<GameObject> bulletPool;
-    public GameObject bulletPrefab;
+    public Queue<GameObject> PlayerBulletPool;
+    public Queue<GameObject> EnemyBulletPool;
+    
+    [Header("Player Bullets")]
     [Range(10, 200)]
-    public int bulletNumber = 50;
-    public Transform bulletParent;
-    public int bulletCount;
-    public int activeBullets = 0;
+    public int playerBulletNumber = 50;
+    public int playerBulletCount;
+    public int activePlayerBullets = 0;
+    
+    [Header("Enemy Bullets")]
+    [Range(10, 200)]
+    public int enemyBulletNumber = 50;
+    public int enemyBulletCount;
+    public int activeEnemyBullets = 0;
+    public BulletFactory bulletFactory;
 
     void Start()
     {
-        bulletPool = new Queue<GameObject>(); // creates an empty Queue
-        BuildBulletPool();
+        PlayerBulletPool = new Queue<GameObject>(); // creates an empty Queue
+        EnemyBulletPool = new Queue<GameObject>(); // creates an empty Queue
+        bulletFactory = GameObject.FindObjectOfType<BulletFactory>();
+        BuildBulletPools();
     }
 
-    void BuildBulletPool()
+    void BuildBulletPools()
     {
-        for (int i = 0; i < bulletNumber; i++)
+        for (int i = 0; i < playerBulletNumber; i++)
         {
-            CreateBullet();
+            PlayerBulletPool.Enqueue(bulletFactory.createBullet(BulletType.PALYER));
+        }
+        for (int i = 0; i < enemyBulletNumber; i++)
+        {
+            EnemyBulletPool.Enqueue(bulletFactory.createBullet(BulletType.ENEMY));
         }
     }
 
-    private void CreateBullet()
+    public GameObject GetBullet(Vector2 position, BulletType type)
     {
-        var bullet = Instantiate(bulletPrefab);
-        bullet.SetActive(false);
-        bullet.transform.SetParent(bulletParent);
-        bulletPool.Enqueue(bullet);
-    }
+        GameObject bullet = null;
 
-    public GameObject GetBullet(Vector2 position, BulletDirection direction)
-    {
-        if (bulletPool.Count < 1)
+        switch (type)
         {
-            CreateBullet();
+            case BulletType.PALYER:
+                {
+                    if (PlayerBulletPool.Count < 1)
+                    {
+                        PlayerBulletPool.Enqueue(bulletFactory.createBullet(BulletType.PALYER));
+                    }
+                    bullet = PlayerBulletPool.Dequeue();
+                    activePlayerBullets++;
+                    playerBulletCount = PlayerBulletPool.Count;
+                    break;
+                }
+
+            case BulletType.ENEMY:
+                {
+                    if (EnemyBulletPool.Count < 1)
+                    {
+                        EnemyBulletPool.Enqueue(bulletFactory.createBullet(BulletType.ENEMY));
+                    }
+                    bullet = EnemyBulletPool.Dequeue();
+                    activeEnemyBullets++;
+                    enemyBulletCount = EnemyBulletPool.Count;
+                    break;
+                }
         }
 
-        var bullet = bulletPool.Dequeue();
         bullet.SetActive(true);
         bullet.transform.position = position;
-        bullet.GetComponent<BulletBehaviour>().SetDirection(direction);
 
-        activeBullets++;
-        bulletCount = bulletPool.Count;
-        
         return bullet;
     }
 
-    public void ReturnBullet(GameObject bullet)
+    public void ReturnBullet(GameObject bullet, BulletType type)
     {
         bullet.SetActive(false);
-        bulletPool.Enqueue(bullet);
 
-        activeBullets--;
-        bulletCount = bulletPool.Count;
+        switch (type)
+        {
+            case BulletType.PALYER:
+                PlayerBulletPool.Enqueue(bullet);
+
+                activePlayerBullets--;
+                playerBulletCount = PlayerBulletPool.Count;
+                break;
+
+            case BulletType.ENEMY:
+                EnemyBulletPool.Enqueue(bullet);
+
+                activeEnemyBullets--;
+                enemyBulletCount = EnemyBulletPool.Count;
+                break;
+        }
     }
 }

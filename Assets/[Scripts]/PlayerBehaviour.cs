@@ -79,6 +79,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FireBullets()
     {
-        bulletManager.GetBullet(bulletSpawnPoint.position, BulletDirection.UP);
+        bulletManager.GetBullet(bulletSpawnPoint.position, BulletType.PALYER);
     }
 }

@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    [Header("Enemy Movement Properties")]
     public Boundary horizontalBoundary;
     public Boundary verticalBoundary;
     public Boundary screenBounds;
     public float horizontalSpeed;
     public float verticalSpeed;
-    public Color randomColor;
 
+    [Header("Other Enemy Properties")]
+    public Color randomColor;
     private SpriteRenderer spriteRenderer;
+
+    [Header("Bullet Properties")]
+    public Transform bulletSpawnPoint;
+    [Range(0.1f, 1.0f)]
+    public float fireRate = 0.2f;
+    public BulletManager bulletManager;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        bulletManager = FindObjectOfType<BulletManager>();
+
         ResetEnemy();
+        InvokeRepeating("FireBullets", 0.1f, fireRate);
     }
 
     void Update()
@@ -58,5 +69,10 @@ public class EnemyBehaviour : MonoBehaviour
 
         randomColor = colorArray[Random.Range(0, 6)];
         spriteRenderer.material.SetColor("_Color", randomColor);
+    }
+
+    void FireBullets()
+    {
+        bulletManager.GetBullet(bulletSpawnPoint.position, BulletType.ENEMY);
     }
 }

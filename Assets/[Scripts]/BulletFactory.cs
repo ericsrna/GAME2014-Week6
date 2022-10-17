@@ -27,7 +27,7 @@ public class BulletFactory : MonoBehaviour
         bulletParent = GameObject.Find("Bullets").transform;
     }
 
-    public GameObject createBullet(BulletType bulletType = BulletType.PALYER)
+    public GameObject createBullet(BulletType bulletType)
     {
         GameObject bullet = null;
 
@@ -38,11 +38,13 @@ public class BulletFactory : MonoBehaviour
         {
             case BulletType.PALYER:
                 bullet.GetComponent<SpriteRenderer>().sprite = playerBulletSprite;
-                bullet.GetComponent<BulletBehaviour>().bulletDirection = BulletDirection.UP;
+                bullet.GetComponent<BulletBehaviour>().bulletType = BulletType.PALYER;
+                bullet.GetComponent<BulletBehaviour>().SetDirection(BulletDirection.UP);
                 break;
             case BulletType.ENEMY:
                 bullet.GetComponent<SpriteRenderer>().sprite = enemyBulletSprite;
-                bullet.GetComponent<BulletBehaviour>().bulletDirection = BulletDirection.DOWN;
+                bullet.GetComponent<BulletBehaviour>().bulletType = BulletType.ENEMY;
+                bullet.GetComponent<BulletBehaviour>().SetDirection(BulletDirection.DOWN);
                 break;
         }    
 

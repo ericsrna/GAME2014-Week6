@@ -381,11 +381,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb6cf36c051e304b8094db051fffc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 2856912451002589594, guid: 7437d1f14749b08489b9b6c28af40443, type: 3}
-  bulletNumber: 25
-  bulletParent: {fileID: 53780606}
-  bulletCount: 0
-  activeBullets: 0
+  playerBulletNumber: 20
+  playerBulletCount: 0
+  activePlayerBullets: 0
+  enemyBulletNumber: 30
+  enemyBulletCount: 0
+  activeEnemyBullets: 0
+  bulletFactory: {fileID: 0}
 --- !u!114 &1191315045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,6 +400,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0210238f73e995647aaedf9d4e71c9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 0}
+  playerBulletSprite: {fileID: 0}
+  enemyBulletSprite: {fileID: 0}
+  bulletParent: {fileID: 0}
 --- !u!1001 &1812620221
 PrefabInstance:
   m_ObjectHideFlags: 0

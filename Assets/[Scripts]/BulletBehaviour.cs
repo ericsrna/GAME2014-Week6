@@ -17,11 +17,12 @@ public class BulletBehaviour : MonoBehaviour
     public ScreenBounds bounds;    
     private Vector3 velocity;
     public BulletManager bulletManager;
+    public BulletType bulletType;
 
     void Start()
     {
         bulletManager = FindObjectOfType<BulletManager>();
-        SetDirection(bulletDirection);
+        //SetDirection((bulletType == BulletType.PALYER) ? BulletDirection.UP : BulletDirection.DOWN );
     }
 
     void Update()
@@ -44,7 +45,7 @@ public class BulletBehaviour : MonoBehaviour
             )
         {
             // return the bullet to the pool
-            bulletManager.ReturnBullet(this.gameObject);
+            bulletManager.ReturnBullet(this.gameObject, bulletType);
         }
     }
 
@@ -69,6 +70,11 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        bulletManager.ReturnBullet(this.gameObject);
+        if (bulletType == BulletType.PALYER ||
+            (bulletType == BulletType.ENEMY && collision.gameObject.CompareTag("Player"))
+            )
+        {
+            bulletManager.ReturnBullet(this.gameObject, bulletType);
+        }
     }
 }
